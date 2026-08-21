@@ -82,6 +82,55 @@ Security: WPA2
 
 After I get this working I can start using the information to detect changes in the Wi-Fi environment.
 
+The Wi-Fi scanner is now working. The ESP32 scans for nearby access points every 10 seconds and collects the SSID, BSSID, signal strength and channel.
+
+During testing, the ESP32 detected between 8 and 13 networks depending on the scan.
+
+Example from one of the scans:
+
+Found 11 networks
+
+[1]
+SSID: HomeNetwork
+BSSID: XX:XX:XX:XX:52:B5
+Signal: -49 dBm
+Channel: 6
+
+[2]
+SSID: HomeNetwork
+BSSID: XX:XX:XX:XX:BA:3A
+Signal: -54 dBm
+Channel: 1
+
+[3]
+SSID: Network-3
+BSSID: XX:XX:XX:XX:1F:FC
+Signal: -65 dBm
+Channel: 6
+
+[4]
+SSID: HomeNetwork
+BSSID: XX:XX:XX:XX:46:21
+Signal: -65 dBm
+Channel: 11
+
+One thing I noticed during testing was that the same SSID could appear with multiple different BSSIDs and on different channels.
+
+This does not automatically mean that something is suspicious, since a network can have multiple access points or use a mesh setup. This is important for the next part of the project because I need to create a baseline of what is considered normal before I can start detecting unusual changes.
+
+The signal strength also changed between scans, while some weaker networks would sometimes disappear completely. Because of this, RSSI alone won't be enough to decide if something is suspicious.
+
+Next step
+
+The next step is to add the security type (WPA2, WPA3, Open, etc.) to each detected network and start working on a baseline of known access points.
+
+This baseline will later be used to detect things such as:
+
+A known SSID appearing with an unknown BSSID
+Changes in the security configuration
+New or unexpected access points
+Possible rogue access points / Evil Twins
+
 ## What's next?
 
 The plan is to slowly add more features:
